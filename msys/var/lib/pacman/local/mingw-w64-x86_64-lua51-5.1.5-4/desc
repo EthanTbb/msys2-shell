@@ -1,0 +1,36 @@
+%NAME%
+mingw-w64-x86_64-lua51
+
+%VERSION%
+5.1.5-4
+
+%DESC%
+A powerful light-weight programming language designed for extending applications. Version 5.1.x (mingw-w64)
+
+%URL%
+http://www.lua.org/
+
+%ARCH%
+any
+
+%BUILDDATE%
+1436768457
+
+%INSTALLDATE%
+1511433065
+
+%PACKAGER%
+Alexpux <alexpux@jmail.com>
+
+%SIZE%
+1091584
+
+%LICENSE%
+MIT
+
+%VALIDATION%
+pgp
+
+%DEPENDS%
+winpty
+

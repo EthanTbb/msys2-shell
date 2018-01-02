@@ -1,0 +1,33 @@
+<DirectedGraph Layout="ForceDirected" GraphDirection="BottomToTop" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="LockStack23250319" Label="Lock stack" Group="Expanded" />
+    <Node Id="23250319" Label="Read&#xD;&#xA;" Category="None">
+      <Category Ref="Issued" />
+      <Category Ref="ReadLock" />
+    </Node>
+    <Node Id="57741759" Label="Read&#xD;&#xA;" Category="None">
+      <Category Ref="Issued" />
+      <Category Ref="ReadLock" />
+    </Node>
+    <Node Id="28579221" Label="Read&#xD;&#xA;" Category="None">
+      <Category Ref="Issued" />
+      <Category Ref="ReadLock" />
+    </Node>
+  </Nodes>
+  <Links>
+    <Link Source="LockStack23250319" Target="23250319" Category="Contains" />
+    <Link Source="LockStack23250319" Target="57741759" Category="Contains" />
+    <Link Source="LockStack23250319" Target="28579221" Category="Contains" />
+    <Link Source="23250319" Target="57741759" />
+    <Link Source="57741759" Target="28579221" />
+  </Links>
+  <Categories>
+    <Category Id="Contains" IsContainment="True" />
+    <Category Id="Waiting" Icon="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/kpi_yellow_cat1_large.png" />
+    <Category Id="Issued" Icon="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/kpi_green_sym2_large.png" />
+    <Category Id="Released" Icon="pack://application:,,,/Microsoft.VisualStudio.Progression.GraphControl;component/Icons/kpi_red_sym2_large.png" />
+    <Category Id="ReadLock" Background="#FF7476AF" />
+    <Category Id="UpgradeableReadLock" Background="#FFFFBF00" />
+    <Category Id="WriteLock" Background="#FFC79393" />
+  </Categories>
+</DirectedGraph>

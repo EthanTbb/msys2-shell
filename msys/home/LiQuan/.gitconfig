@@ -1,0 +1,33 @@
+[user]
+	name = liquan
+	email = 735908933@qq.com
+[core]
+	editor = vim
+	quotepath = off
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
+	dt = difftool
+	di = diff
+[push]
+	default = simple
+[pull]
+	rebase = true
+[diff]
+	tool = vimdiff
+[difftool]
+	prompt = false
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
+[rebase]
+	autosquash = true
+	autostash = true
+[rerere]
+	enabled = true
+[sendpack]
+	sideband = false

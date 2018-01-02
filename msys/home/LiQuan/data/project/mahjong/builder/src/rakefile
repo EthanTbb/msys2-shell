@@ -1,0 +1,109 @@
+require "pathname"
+require "yaml"
+
+DIR_ROOT = Pathname.new(__FILE__).dirname.parent
+                                 .relative_path_from(Pathname.pwd).to_s
+DIR_BIN    = "#{DIR_ROOT}/bin"
+DIR_GEN    = "#{DIR_ROOT}/gen"
+DIR_CFG    = "#{DIR_ROOT}/config"
+DIR_SOURCE = "client"
+DIR_TARGET = "client/ciphercode"
+
+def find pattern
+    Dir.glob(pattern, File::FNM_DOTMATCH).map    { |path| path.to_s           }
+                                         .select { |path| FileTest.file? path }
+end
+
+def build_resource directory, external = []
+    copy = ->(source, target, path) do
+        name = "#{target}/#{path}"
+        file name => "#{source}/#{path}" do |target|
+            Pathname.new(target.name).parent.mkpath
+            FileUtils.copy target.source, target.name
+        end
+        return name
+    end
+
+    rules = {}
+    ##  rules[".png"] = ->(source, target, path) do
+    ##      name = "#{target}/#{path}"
+    ##      file name => "#{source}/#{path}" do |target|
+    ##          Pathname.new(target.name).parent.mkpath
+    ##          sh "#{DIR_BIN}/pngquant --force --output '#{target.name}' -- '#{target.source}'"
+    ##      end
+    ##      return name
+    ##  end
+    rules[".lua"] = ->(source, target, path) do
+        name = Pathname.new("#{target}/#{path}").sub_ext(".luac").to_s
+        file name => "#{source}/#{path}" do |target|
+            Pathname.new(target.name).parent.mkpath
+            sh "#{DIR_BIN}/encrypt RY_QP_2016 RY_QP_MBCLIENT_!2016 '#{target.source}' '#{target.name}'"
+        end
+        return name
+    end
+
+    files = `git -C #{DIR_SOURCE} ls-files #{directory}`.split "\n"
+    files = files.reduce([]) do |files, path|
+        rule = rules[Pathname.new(path).extname]
+        files.push (rule or copy).call DIR_SOURCE, DIR_TARGET, path
+    end
+    files.concat external
+
+    orphans = find("#{DIR_TARGET}/#{directory}/**/*") - files
+    orphans.each do |path|
+        task path do |target|
+            FileUtils.remove target.name
+        end
+    end
+
+    files + orphans
+end
+
+def build_archive root, filter = []
+    directories = [ root ]
+    if not filter.empty?
+        directories = filter.map { |directory| "#{root}/#{directory}" }
+    end
+
+    name = "#{DIR_TARGET}/base/res/#{root}.zip"
+    resource = directories.reduce([]) do |resource, directory|
+        resource.concat build_resource directory
+    end
+    file name => resource do |target|
+        FileUtils.remove target.name, force: true
+        Pathname.new(target.name).parent.mkpath
+        path = Pathname.new(target.name)
+        relative = path.relative_path_from Pathname.new(DIR_TARGET)
+        source = directories.map { |directory| "'#{directory}'" }
+                            .join " "
+        sh "cd '#{DIR_TARGET}' && zip -r '#{relative}' #{source}"
+    end
+    return name
+end
+
+def build_client
+    build_archive "client"
+end
+
+def build_game
+    build_archive "game", YAML.load(IO.read("#{DIR_CFG}/game.yml"))
+end
+
+def build_base client, game
+    build_resource "base", [ client, game, ]
+end
+
+def build_apk base
+    dependencies = []
+    dependencies.concat base
+    ## TODO: framework
+    dependencies.concat []
+    apk = "simulator/android/GloryProject-debug.apk"
+    file apk => dependencies do |target|
+        sh "cocos compile -p android --ap android-19 -j 3"
+    end
+    return apk
+end
+
+apk = build_apk build_base build_client, build_game
+task default: apk

@@ -1,0 +1,18 @@
+<DirectedGraph Layout="Sugiyama" xmlns="http://schemas.microsoft.com/vs/2009/dgml">
+  <Nodes>
+    <Node Id="Task#1" Label="Task #1 (Microsoft.VisualStudio.Project.VisualC.VCProjectEngine.ApartmentMarshaler+&lt;&gt;c__DisplayClass18`1[[Microsoft.VisualStudio.Project.VisualC.VCProjectEngine.VCProjectShim, Microsoft.VisualStudio.Project.VisualC.VCProjectEngine, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a]].&lt;Invoke&gt;b__16)" Category="Task">
+      <Category Ref="MainThreadBlocking" />
+    </Node>
+    <Node Id="Task#2" Label="Task #2 (Microsoft.VisualStudio.ProjectSystem.ConfiguredProjectImpl+&lt;&gt;c__DisplayClassf.&lt;InitializeAsync&gt;b__d)" Category="Task" />
+    <Node Id="Collection#1" Label="Collection #1" Group="Expanded" Category="Collection" />
+  </Nodes>
+  <Links>
+    <Link Source="Task#1" Target="Task#2" />
+    <Link Source="Collection#1" Target="Task#2" Category="Contains" />
+  </Links>
+  <Categories>
+    <Category Id="Contains" IsContainment="True" />
+    <Category Id="MainThreadBlocking" Label="Blocking main thread" Background="#FFF9FF7F" IsTag="True" />
+    <Category Id="NonEmptyQueue" Label="Non-empty queue" Background="#FFFF0000" IsTag="True" />
+  </Categories>
+</DirectedGraph>

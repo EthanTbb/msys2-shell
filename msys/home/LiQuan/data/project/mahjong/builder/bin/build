@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+rake -f $(dirname $0)/../src/rakefile $*

@@ -1,0 +1,5 @@
+{'word': 'client/game/yule/oxsixex/src/views/layer/GameViewLayer.lua', 'pattern': ';oxsi'}
+{'word': 'lvimgrep /PriGameLayer/ **/*.lua', 'pattern': 'lvimgrep /PriGameLayer/ **/*.lua'}
+{'word': 'game/yule/oxnew/src/views/GameLayer.lua', 'pattern': ';game;oxnew'}
+{'word': 'client/src/gamemodel/GameModel.lua', 'pattern': 'gamemod'}
+{'word': 'client/src/plaza/views/ClientScene.lua', 'pattern': 'c'}
